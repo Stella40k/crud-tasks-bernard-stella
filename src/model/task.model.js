@@ -2,7 +2,7 @@ import { sequelize } from "/config/database.js";
 import { DataTypes } from "sequelize";
 
 
-export const task = sequelize.define('User', {
+export const task = sequelize.define('Task', {
  id:{
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -15,8 +15,10 @@ export const task = sequelize.define('User', {
  },
  description:{
     type: DataTypes.STRING(100),
+    allowNull: false
  },
  isComplete:{
-
+   type: DataTypes.BOOLEAN,
+   toDefaultValue: false,
  }
 });
