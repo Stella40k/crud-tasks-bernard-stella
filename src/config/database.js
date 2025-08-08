@@ -15,6 +15,7 @@ export const connect = async () => {
   try {
     await sequelize.authenticate();
     console.log("conexion a la bd");
+    
 
   } catch (error) {
     console.error("error en la conexion:", error);

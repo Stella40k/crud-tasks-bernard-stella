@@ -1,6 +1,9 @@
 import { task } from "../model/task.model.js";
 import { config } from "dotenv";
 
+dotenv.config();
+
+
 export const getAllTasks = async (req, res) => {
     try {
         const task = await task.findAll();
@@ -57,7 +60,7 @@ export const getTaskById = async (req, res) => {
         res.status(200).json({ message: "se actualizo la tarea", taskUpdate });
     
     } catch (error) {
-       res.status(500).json({ error: "error al actualizar la tarea" }); 
+       res.status(500).json({ error: "error al actualizar la tarea" } ); 
     }
  };
  export const deleteTask = async (req, res) => {

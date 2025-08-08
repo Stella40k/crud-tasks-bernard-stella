@@ -1,5 +1,7 @@
-import { user } from "../model/task.model.js";
+import { user } from "../model/user.model.js";
 import { config } from "dotenv";
+
+dotenv.config();
 
 export const getAllUser = async (req, res) => {
     try {
@@ -45,8 +47,12 @@ export const getUserById = async (req, res) => {
         if (email) userUpdate.email = email.trim();
         if (password) userUpdate.password = password;
         //ver para poner una validacion de contr por longitud
+
+        await userUpdate.save();
+        res.status(200).json({ message: "se actualizo el usuario", userUpdate });
+    
     } catch (error) {
-        
+        res.status(500).json({ error: "error al actualizar el usuario" });
     }
  };
  export const deleteUser = async (req, res) => {
