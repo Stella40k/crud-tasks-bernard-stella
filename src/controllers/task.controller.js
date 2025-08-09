@@ -25,20 +25,40 @@ export const getTaskById = async (req, res) => {
 };
  export const createTask = async (req, res) => {
     try {
-        let { title, description, isComplete} = req.body;
+        const { title, description, isComplete} = req.body;
         //falta el de la cantidad de los caracteres
+        //____________para el titulo y la descripcion _________________________________________________
         if (!title || !description) {
             return res.status(400).json({error: "completar los campos obligatorios"});
         }       
-        if (!typeof isComplete === "boolean") {
+        if (title.length > 100 || description.length > 100) {
+            return res.status(400).json({error: "no se pueden superar los 100 caracteres"});
+        }
+        //____________________________________________________________________________________________
+        if (!title || title.trim() === "") {
+            return res.status(400).json({message: "no se permiten campos vacios"});
+        }
+        if (!description || description.trim() === "") {
+            return res.status(400).json({message: "no se permiten campos vacios"});
+        }
+        //____________________________________________________________________________________________
+        if (typeof isComplete === "boolean") {
             isComplete = false;         
         }
-        const respuestas= ["si", "no", "en proceso"]; //los valores a elegir para el bool
-        if(!respuestas.includes(isComplete.toLowerCase())){
-            return res.status(400).json({error: "el campo completo debe ser si, no o en proceso"});
+        //____________________________________________________________________________________________
+        //caja = espera({ busca en: {titulos: el dato mq estan metiendo}}) y si existe mauestra el mensaje. Si no la crea
+        const exisTitle = await Task.findOne({ where: { title: title.trim() } });
+        if (exisTitle) {
+            return res.status(400).json({ error: "ya existe una tarea con ese titulo" });
         }
-
-        console.log({title, description, isComplete});
+        //____________________________________________________________________________________________
+        //esto es para mostrar la tarea creada
+        const newTask = await Task.create({
+            title: title.trim(),
+            description: description.trim(),
+            isComplete
+        });
+        res.status(201).json({message: "tarea creada correctamente", newTask});
     } catch (error) {
         res.status(500).json({error: "error al crear la tarea"});
     }
