@@ -9,8 +9,8 @@ import {
 
 export const UserRouter = Router();
 
-UserRouter.get()
-UserRouter.get()
-UserRouter.post()
-UserRouter.put()
-UserRouter.delete()
+UserRouter.get("/", getAllUsers);
+UserRouter.get("/:id", getUserById);    
+UserRouter.post("/", createUser);
+UserRouter.put("/:id", updateUser);
+UserRouter.delete("/:id", deleteUser);

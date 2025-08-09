@@ -1,4 +1,5 @@
-import { task } from "../model/task.model.js";
+import { Task } from "../model/task.model.js";
+//las variables q vienen de afuera tienen q tener nombre o algo diferente a las constantes nuevas q haga
 import { config } from "dotenv";
 
 dotenv.config();
@@ -6,7 +7,7 @@ dotenv.config();
 
 export const getAllTasks = async (req, res) => {
     try {
-        const task = await task.findAll();
+        const task = await Task.findAll();
         res.status(200).json(task)
     } catch (error) {
         res.status(500).json({error: "error de conexion con la base de datos"})
@@ -14,7 +15,7 @@ export const getAllTasks = async (req, res) => {
 };
 export const getTaskById = async (req, res) => {
     try {
-        const task = await task.findByPk(req.params.id);
+        const task = await Task.findByPk(req.params.id);
         if (!task) {
             return res.status(404).json({ error: "tarea no encontrado"})
         }
@@ -27,6 +28,7 @@ export const getTaskById = async (req, res) => {
  export const createTask = async (req, res) => {
     try {
         let { title, description, isComplete} = req.body;
+        //falta el de la cantidad de los caracteres
         if (!title || !description) {
             return res.status(400).json({error: "completar los campos obligatorios"});
         }       
@@ -47,7 +49,7 @@ export const getTaskById = async (req, res) => {
     try {
         const { id } = req.params;
         const { title, description, isComplete } = req.body;
-        const taskUpdate = await task.findByPk(id);
+        const taskUpdate = await Task.findByPk(id);
 
         if (!taskUpdate) {
             return res.status(404).json({ error: "tarea no encontrada" });   
@@ -66,7 +68,7 @@ export const getTaskById = async (req, res) => {
  export const deleteTask = async (req, res) => {
     try {
         const { id } = req.params;
-        const taskDelete = await task.findByPk(id);
+        const taskDelete = await Task.findByPk(id);
 
         if (!taskDelete) {
             return res.status(404).json({ error: "tarea no encontrada" });

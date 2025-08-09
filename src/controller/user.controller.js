@@ -1,11 +1,12 @@
-import { user } from "../model/user.model.js";
+import { User } from "../model/user.model.js";
+//las variables q vienen de afuera tienen q tener nombre o algo diferente a las constantes nuevas q haga
 import { config } from "dotenv";
 
 dotenv.config();
 
 export const getAllUser = async (req, res) => {
     try {
-        const user = await user.findAll();
+        const user = await User.findAll();
         res.status(200).json(user)
     } catch (error) {
         res.status(500).json({error: "error de conexion con la base de datos"})
@@ -13,7 +14,7 @@ export const getAllUser = async (req, res) => {
 };
 export const getUserById = async (req, res) => {
     try {
-        const user = await user.findByPk(req.params.id);
+        const user = await User.findByPk(req.params.id);
         if (!user) {
             return res.status(404).json({ error: "usuario no encontrado"})
         }
@@ -58,7 +59,7 @@ export const getUserById = async (req, res) => {
  export const deleteUser = async (req, res) => {
     try {
         const { id } = req.params;
-        const userDelete = await user.findByPk(id);
+        const userDelete = await User.findByPk(id);
 
         if (!userDelete) {
             return res.status(404).json({ error: "usuario no encontrado" });   
