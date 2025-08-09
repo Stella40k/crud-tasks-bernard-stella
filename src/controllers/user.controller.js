@@ -1,8 +1,7 @@
 import { User } from "../model/user.model.js";
 //las variables q vienen de afuera tienen q tener nombre o algo diferente a las constantes nuevas q haga
-import { config } from "dotenv";
+import "dotenv/config";
 
-dotenv.config();
 
 export const getAllUsers = async (req, res) => {
     try {

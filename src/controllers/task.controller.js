@@ -1,8 +1,6 @@
 import { Task } from "../model/task.model.js";
 //las variables q vienen de afuera tienen q tener nombre o algo diferente a las constantes nuevas q haga
-import { config } from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 
 export const getAllTasks = async (req, res) => {
