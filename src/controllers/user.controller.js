@@ -4,7 +4,7 @@ import { config } from "dotenv";
 
 dotenv.config();
 
-export const getAllUser = async (req, res) => {
+export const getAllUsers = async (req, res) => {
     try {
         const user = await User.findAll();
         res.status(200).json(user)
