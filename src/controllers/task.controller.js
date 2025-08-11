@@ -68,14 +68,27 @@ export const getTaskById = async (req, res) => {
         const { id } = req.params;
         const { title, description, isComplete } = req.body;
         const taskUpdate = await Task.findByPk(id);
-
+        //____________________________________________________________________________________________
         if (!taskUpdate) {
             return res.status(404).json({ error: "tarea no encontrada" });   
         }
-        if (title) taskUpdate.title = title.trim();
-        if (description) taskUpdate.description = description.trim();
-        if (typeof isComplete === "boolean") taskUpdate.isComplete = isComplete;
-
+        //____________________________________________________________________________________________
+        if(!title && title.trim()===""){
+            return res.status(400).json({ error: "el titulo no puede estar vacio" });
+        }
+        if(!description && description.trim() ===""){
+            return res.status(400).json({ error: "la descripcion no puede estar vacia" });
+        }
+        if (title.length > 100 || description.length > 100) {
+            return res.status(400).json({error: "no se pueden superar los 100 caracteres"});
+        }
+        //____________________________________________________________________________________________
+        //validacion para titulos repetidos
+        const existTitle = await Task.findOne({ where: { title: title.trim() } });
+        if (existTitle ) {
+            return res.status(400).json({ error: "ya existe una tarea con ese titulo" });
+        }
+        //____________________________________________________________________________________________
         await taskUpdate.save();
         res.status(200).json({ message: "se actualizo la tarea", taskUpdate });
     
