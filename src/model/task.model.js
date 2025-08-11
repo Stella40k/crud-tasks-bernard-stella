@@ -22,3 +22,6 @@ export const Task = sequelize.define('Task', {
    toDefaultValue: false,
  }
 });
+//separar con _ las palabras en la base de datos
+//TaskModel.belongTo(UserModel)
+//User
