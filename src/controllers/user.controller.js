@@ -28,9 +28,10 @@ export const getUserById = async (req, res) => {
         const { name, email, password} = req.body;
 
         if (!name?.trim() || !email?.trim() || !password?.trim()) {
-            return res.status(400).json({error: "completar los campos obligatorios y no pueden estar vacios", error});
+            console.log(name, email, password);
+
+            ///return res.status(400).json({error: "completar los campos obligatorios y no pueden estar vacios", error});
         }// el ? es para que no de error si viene undefined, si viene undefined no hace el trim
-        console.log(name, email, password);
         //_______________________________________________________________________________________________________
         //validacion para que no se puedan ingresar campos vacios ni mas q 100caracters
         if (name.length > 100 || email.length > 100) {
@@ -42,7 +43,7 @@ export const getUserById = async (req, res) => {
         if (!Email.test(email.trim())){
             return res.status(400).json({error: "el email no es valido"});
         }
-        const existUser = await User.findOne({ where: { email: email.trim() } });
+        const existUser = await User.findOne({ where: { email: email.trim()}});
         if (existUser){
             return res.status(400).json({error: "email ya registrado"});
         }
