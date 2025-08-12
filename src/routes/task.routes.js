@@ -4,6 +4,7 @@ import {
     getTaskById,        
     createTask,
     updateTask,
+    deleteTask
     
 } from "../controllers/task.controller.js";
 
@@ -13,4 +14,4 @@ TaskRouter.get("/", getAllTasks);
 TaskRouter.get("/:id", getTaskById);
 TaskRouter.post("/", createTask);
 TaskRouter.put("/:id", updateTask);
-TaskRouter.delete("/:id", updateTask);  
+TaskRouter.delete("/:id", deleteTask) 

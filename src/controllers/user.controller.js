@@ -27,22 +27,14 @@ export const getUserById = async (req, res) => {
     try {
         const { name, email, password} = req.body;
 
-        if (!name || !email || !password) {
-            return res.status(400).json({error: "completar los campos obligatorios"});
-        }
+        if (!name?.trim() || !email?.trim() || !password?.trim()) {
+            return res.status(400).json({error: "completar los campos obligatorios y no pueden estar vacios", error});
+        }// el ? es para que no de error si viene undefined, si viene undefined no hace el trim
+        console.log(name, email, password);
         //_______________________________________________________________________________________________________
         //validacion para que no se puedan ingresar campos vacios ni mas q 100caracters
         if (name.length > 100 || email.length > 100) {
             return res.status(400).json({error: "no se pueden superar los 100 caracteres"});
-        }
-        if (!name || name.trim() === "") {
-            return res.status(400).json({message: "no se permiten campos vacios"});
-        }
-        if (!email || email.trim() === "") {
-            return res.status(400).json({message: "no se permiten campos vacios"});
-        }
-        if (!password || password.trim()=== "") {
-            return res.status(400).json({message: "no se permiten campos vacios"});
         }
         //_______________________________________________________________________________________________________
         //validacion para email
@@ -125,13 +117,13 @@ export const getUserById = async (req, res) => {
 
         await userUpdate.save();
         const{password: _, ...userResponse} = userUpdate.dataValues; //esto es para no mostrar la contraseña en el response
-        //preguntar mas
+        //preguntar mas de la logica de esto 
         res.status(200).json({ message: "se actualizo el usuario", userUpdate });
     
     } catch (error) {
         res.status(500).json({ error: "error al actualizar el usuario" });
     }
- };
+};
  export const deleteUser = async (req, res) => {
     try {
         const { id } = req.params;
@@ -146,4 +138,4 @@ export const getUserById = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ error: "error al eliminar el usuario" });
     }
- };
+};

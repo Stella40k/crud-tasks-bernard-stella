@@ -28,18 +28,11 @@ export const getTaskById = async (req, res) => {
         const { title, description, isComplete} = req.body;
         //falta el de la cantidad de los caracteres
         //____________para el titulo y la descripcion _________________________________________________
-        if (!title || !description) {
+        if (!title?.trim() || !description?.trim()) {
             return res.status(400).json({error: "completar los campos obligatorios"});
         }       
         if (title.length > 100 || description.length > 100) {
             return res.status(400).json({error: "no se pueden superar los 100 caracteres"});
-        }
-        //____________________________________________________________________________________________
-        if (!title || title.trim() === "") {
-            return res.status(400).json({message: "no se permiten campos vacios"});
-        }
-        if (!description || description.trim() === "") {
-            return res.status(400).json({message: "no se permiten campos vacios"});
         }
         //____________________________________________________________________________________________
         if (typeof isComplete === "boolean") {
