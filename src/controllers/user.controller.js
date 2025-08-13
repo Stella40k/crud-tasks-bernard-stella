@@ -1,11 +1,15 @@
 import { User } from "../model/user.model.js";
 //las variables q vienen de afuera tienen q tener nombre o algo diferente a las constantes nuevas q haga
 import "dotenv/config";
+import bcrypt from "bcrypt";    
 
 
 export const getAllUsers = async (req, res) => {
     try {
         const user = await User.findAll();
+        for (let i = 0; i < user.length; i++) {
+            delete user[i].dataValues.password; //esto es para no mostrar la contraseña en el response
+        }
         res.status(200).json(user)
     } catch (error) {
         return res.status(500).json({error: "error de conexion con la base de datos"})
@@ -14,6 +18,7 @@ export const getAllUsers = async (req, res) => {
 export const getUserById = async (req, res) => {
     try {
         const user = await User.findByPk(req.params.id);
+        delete user.dataValues.password; //esto es para no mostrar la contraseña en el response
         if (!user) {
             return res.status(404).json({ error: "usuario no encontrado"})
         }
@@ -29,7 +34,7 @@ export const getUserById = async (req, res) => {
 
         if (!name?.trim() || !email?.trim() || !password?.trim()) {
             console.log(name, email, password);
-        return res.status(400).json({error: "completar los campos obligatorios y no pueden estar vacios", error});
+            return res.status(400).json({error: "completar los campos obligatorios y no pueden estar vacios", error});
         }// el ? es para que no de error si viene undefined, si viene undefined no hace el trim
         //_______________________________________________________________________________________________________
         //validacion para que no se puedan ingresar campos vacios ni mas q 100caracters
@@ -67,7 +72,8 @@ export const getUserById = async (req, res) => {
         return res.status(201).json({message: "usuario creado", UserResponse});
 
     } catch (error) {
-        return res.status(500).json({error: "error al crear el usuario", error});
+        console.log(error)
+        return res.status(500).json({error: "error al crear el usuario"});
     }
  };
  export const updateUser = async (req, res) => {
@@ -112,11 +118,11 @@ export const getUserById = async (req, res) => {
                 return res.status(400).json({error: "la contraseña debe tener al menos 8 caracteres, una mayuscula, una minuscula y un numero"});
             }
         }
-        userUpdate.pass = await bcrypt.hash(password,10); //encriptar
+        userUpdate.password = await bcrypt.hash(password,3); //encriptar
         //________________________________________________________________________________________________________
 
         await userUpdate.save();
-        const{password: _, ...userResponse} = userUpdate.dataValues; //esto es para no mostrar la contraseña en el response
+        console.log(userResponse);
         //preguntar mas de la logica de esto 
         res.status(200).json({ message: "se actualizo el usuario", userUpdate });
     
