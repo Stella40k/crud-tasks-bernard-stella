@@ -29,8 +29,7 @@ export const getUserById = async (req, res) => {
 
         if (!name?.trim() || !email?.trim() || !password?.trim()) {
             console.log(name, email, password);
-
-            ///return res.status(400).json({error: "completar los campos obligatorios y no pueden estar vacios", error});
+        return res.status(400).json({error: "completar los campos obligatorios y no pueden estar vacios", error});
         }// el ? es para que no de error si viene undefined, si viene undefined no hace el trim
         //_______________________________________________________________________________________________________
         //validacion para que no se puedan ingresar campos vacios ni mas q 100caracters

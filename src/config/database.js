@@ -11,13 +11,11 @@ export const sequelize = new Sequelize(
   }
 );
 
-export const connect = async () => {
-  try {
-    await sequelize.authenticate();
-    console.log("conexion a la bd");
-    
-
-  } catch (error) {
-    console.error("error en la conexion:", error);
-  }
+export const connect = async() => {
+    try {
+        await sequelize.sync({force: false})
+        console.log("conectado a la base de datoss");
+    } catch (error) {
+        console.log("error al conectar con la bd", error);
+    }
 };
