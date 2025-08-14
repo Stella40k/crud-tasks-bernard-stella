@@ -7,7 +7,7 @@ import { UserRouter } from "./src/routes/usuario.routes.js";
 //import
 //import cors from 'cors'; //cors es para permitir el acceso a la api desde otros lados
 
-
+//aa
 
 const app = express();
 const PORT = process.env.PORT;
