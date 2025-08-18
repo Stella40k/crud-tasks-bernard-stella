@@ -14,8 +14,8 @@ const PORT = process.env.PORT;
 
 //middlewares
 app.use(express.json());
-app.use("/api", TaskRouter);
-app.use("/api", UserRouter);
+app.use("/api/task/", TaskRouter);
+app.use("/api/user/", UserRouter);
 //app.use(cors()); //aplicamos cors a la ruta /api
 
 

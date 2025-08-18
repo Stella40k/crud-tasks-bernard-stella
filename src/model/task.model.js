@@ -19,7 +19,7 @@ export const Task = sequelize.define('Task', {
  },
  isComplete:{
    type: DataTypes.BOOLEAN,
-   toDefaultValue: false,
+   defaultValue: false,
  }
 });
 //separar con _ las palabras en la base de datos

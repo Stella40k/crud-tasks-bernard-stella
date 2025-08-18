@@ -26,7 +26,6 @@ export const getTaskById = async (req, res) => {
  export const createTask = async (req, res) => {
     try {
         const { title, description, isComplete} = req.body;
-        //falta el de la cantidad de los caracteres
         //____________para el titulo y la descripcion _________________________________________________
         if (!title?.trim() || !description?.trim()) {
             return res.status(400).json({error: "completar los campos obligatorios"});
@@ -35,8 +34,9 @@ export const getTaskById = async (req, res) => {
             return res.status(400).json({error: "no se pueden superar los 100 caracteres"});
         }
         //____________________________________________________________________________________________
-        if (typeof isComplete === "boolean") {
-            isComplete = false;         
+       //const = taskComplete = isComplete 
+        if (typeof isComplete !== "boolean") {
+            return res.status(400).json({ error: "isComplete debe ser un booleano" });   
         }
         //____________________________________________________________________________________________
         //caja = espera({ busca en: {titulos: el dato mq estan metiendo}}) y si existe mauestra el mensaje. Si no la crea
@@ -53,6 +53,7 @@ export const getTaskById = async (req, res) => {
         });
         res.status(201).json({message: "tarea creada correctamente", newTask});
     } catch (error) {
+        console.log(error);
         res.status(500).json({error: "error al crear la tarea"});
     }
  };
