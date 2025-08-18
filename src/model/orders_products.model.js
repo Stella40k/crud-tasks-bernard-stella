@@ -1,7 +1,7 @@
 import { sequelize } from "../config/database.js"; 
 import { DataTypes } from "sequelize";
-import { Task } from "./task.model.js";
-
+import { Order } from "./orders.model";
+import { Product } from "./products.model.js";
 
 export const Worker = sequelize.define('Worker', {
  id:{
@@ -39,7 +39,3 @@ export const Worker = sequelize.define('Worker', {
 });
 
 //definicion de relaciones
-//1 trabajador tiene muchas tareas
-Worker.hasMany(Task,{foreignKey: 'worker_id'})
-//1 tarea pertenece a un trabajador
-Task.belongsTo(Worker, {foreignKey: 'worker_id'});
