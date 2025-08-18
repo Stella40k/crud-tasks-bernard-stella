@@ -1,5 +1,6 @@
 import { sequelize } from "../config/database.js"; 
 import { DataTypes } from "sequelize";
+import { Task } from "./task.model.js";
 
 
 export const Worker = sequelize.define('Worker', {
@@ -33,4 +34,12 @@ export const Worker = sequelize.define('Worker', {
   type: DataTypes.BOOLEAN,
   defaultValue: true
  }
+},{
+  timestamps: false
 });
+
+//definicion de relaciones
+//1 trabajador tiene muchas tareas
+Worker.hasMany(Task,{foreignKey: 'workwer_id'})
+//1 tarea pertenece a un trabajador
+Task.belongsTo(Worker, {foreignKey: 'workwer_id'});

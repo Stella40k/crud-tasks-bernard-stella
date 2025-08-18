@@ -7,17 +7,21 @@ export const Category = sequelize.define('Category', {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true 
- },
+},
  name:{
    type: DataTypes.STRING(100),
    allowNull: false
- },
+},
   description:{
     type: DataTypes.STRING(100),
     allowNull: false
- },
+},
  stock:{
    type: DataTypes.BOOLEAN,
    defaultValue: true,
- }
+}
+},{
+    timestamps: false
 });
+
+//definicion de relaciones

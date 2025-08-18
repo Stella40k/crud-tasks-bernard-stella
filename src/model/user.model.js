@@ -21,4 +21,8 @@ export const User = sequelize.define('User', {
    type: DataTypes.STRING(100),
    allowNull: false
  }
+},{
+  timestamps: false
 });
+
+//definicion de relaciones

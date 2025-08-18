@@ -1,6 +1,6 @@
 import { sequelize } from "../config/database.js"; 
 import { DataTypes } from "sequelize";
-
+import { Category } from "./categories.model.js";
 
 export const Product = sequelize.define('Product', {
  id:{
@@ -24,4 +24,12 @@ export const Product = sequelize.define('Product', {
     type: DataTypes.STRING(100),
     allowNull: false
  },
+},{
+    timestamps: false
 });
+
+//definicion de relaciones
+//1 categoria peuede tener o pertenecer a muchos productos 
+Category.hasMany(Product, {foreignKey: 'categoryId'});
+//1 producto pertenece a una categoria
+Product.belongsTo(Category, {foreignKey: 'categoryId'});

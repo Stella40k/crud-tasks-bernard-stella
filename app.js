@@ -2,8 +2,15 @@
 import express from "express";
 import "dotenv/config";
 import { connect } from "./src/config/database.js";
+//rutas
 import { TaskRouter } from "./src/routes/task.routes.js";
 import { UserRouter } from "./src/routes/usuario.routes.js";
+//todo los modelos
+import { Product } from "./src/model/products.model.js";
+import { Category } from "./src/model/categories.model.js";
+import { Order } from "./src/model/orders.model.js";
+import { Worker } from "./src/model/workers.model.js";
+
 //import
 //import cors from 'cors'; //cors es para permitir el acceso a la api desde otros lados
 

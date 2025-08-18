@@ -21,7 +21,11 @@ export const Task = sequelize.define('Task', {
    type: DataTypes.BOOLEAN,
    defaultValue: false,
  }
+},{
+   timestamps: false
 });
 //separar con _ las palabras en la base de datos
 //TaskModel.belongTo(UserModel)
 //User
+
+//definicion de relaciones
