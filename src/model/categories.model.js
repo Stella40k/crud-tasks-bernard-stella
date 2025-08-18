@@ -2,7 +2,7 @@ import { sequelize } from "../config/database.js";
 import { DataTypes } from "sequelize";
 
 
-export const Worker = sequelize.define('Worker', {
+export const Category = sequelize.define('Category', {
  id:{
     type: DataTypes.INTEGER,
     primaryKey: true,
