@@ -1,6 +1,6 @@
 import { sequelize } from "../config/database.js"; 
 import { DataTypes } from "sequelize";
-import { Order } from "./orders.model";
+import { Order } from "./orders.model.js";
 import { Product } from "./products.model.js";
 
 export const PedidoProducto = sequelize.define('PedidoProducto', {
@@ -11,6 +11,14 @@ export const PedidoProducto = sequelize.define('PedidoProducto', {
  precio_unitario:{
    type: DataTypes.FLOAT,
    allowNull: false
+},
+  orderId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+},
+  productId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
 }
 },{
   timestamps: false
@@ -21,4 +29,6 @@ export const PedidoProducto = sequelize.define('PedidoProducto', {
 //un pedido puede tener muchos productos y un producto puede estar en muchos pedidos
 
 //un pedido puede tener muchos productos
-Order.hasMany(PedidoProducto, {through: 'orderId'});
+Order.belongsToMany(Product, {through: PedidoProducto, foreignKey: 'orderId'});
+//un producto puede estar en muchos pedidos
+Product.belongsToMany(Order, {through: PedidoProducto, foreignKey: 'productId'});

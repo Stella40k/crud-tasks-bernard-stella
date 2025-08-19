@@ -1,5 +1,6 @@
 import { sequelize } from "../config/database.js"; 
 import { DataTypes } from "sequelize";
+import { Product } from "./products.model.js";
 
 
 export const Category = sequelize.define('Category', {
@@ -25,3 +26,9 @@ export const Category = sequelize.define('Category', {
 });
 
 //definicion de relaciones
+//una categoria puede tener/pertenecer a muchos productos
+//Category.hasMany(Product, {foreignKey: 'categoryId'});
+//un producto pertenece a una categoria
+// Product.belongsTo(Category, {foreignKey: 'categoryId'});
+//con esto tmbn valido q no se puedan asignar productos a 
+//categorias que no existan:P

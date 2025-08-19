@@ -10,11 +10,9 @@ import { Product } from "./src/model/products.model.js";
 import { Category } from "./src/model/categories.model.js";
 import { Order } from "./src/model/orders.model.js";
 import { Worker } from "./src/model/workers.model.js";
-
-//import
+import {PedidoProducto} from "./src/model/orders_products.model.js";
 //import cors from 'cors'; //cors es para permitir el acceso a la api desde otros lados
 
-//borarr esto
 
 const app = express();
 const PORT = process.env.PORT;

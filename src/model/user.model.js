@@ -1,6 +1,6 @@
 import { sequelize } from "../config/database.js"; 
 import { DataTypes } from "sequelize";
-
+import { Order } from "./orders.model.js";
 
 export const User = sequelize.define('User', {
  id:{
@@ -26,3 +26,8 @@ export const User = sequelize.define('User', {
 });
 
 //definicion de relaciones
+
+User.hasMany(Order, {foreignKey: 'userId'});
+//un pedido pertnece a un usuario
+Order.belongsTo(User, {foreignKey: 'userId'});  
+//un usuario tiene muchas ordenes

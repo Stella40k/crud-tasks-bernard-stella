@@ -43,3 +43,5 @@ export const Worker = sequelize.define('Worker', {
 Worker.hasMany(Task,{foreignKey: 'worker_id'})
 //1 tarea pertenece a un trabajador
 Task.belongsTo(Worker, {foreignKey: 'worker_id'});
+//con esto tmbn valido q no se puedan asignar tareas a 
+//trabajadores q no esten activos(existan:P)

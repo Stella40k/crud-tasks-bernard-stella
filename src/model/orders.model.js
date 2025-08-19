@@ -15,14 +15,15 @@ export const Order = sequelize.define('Order', {
  },
  estado:{
     type: DataTypes.ENUM("pendiente", "enviado", "entregado"),
-    allowNull: false
+    allowNull: false,
+    defaultValue: "pendiente"
  }
 },{
     timestamps: false
 });
 
 //definicion de relaciones
-//un usuario puede pedir/tener muchas ordenes
-User.hasMany(Order, {foreignKey: 'userId'});
 //un pedido pertnece a un usuario
-Order.belongsTo(User, {foreignKey: 'userId'});
+//Order.belongsTo(User, {foreignKey: 'userId'});
+//un usuario puede pedir/tener muchas ordenes
+//User.hasMany(Order, {foreignKey: 'userId'});

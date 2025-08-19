@@ -29,3 +29,5 @@ export const Task = sequelize.define('Task', {
 //User
 
 //definicion de relaciones
+//preguntar al profe pq esta bien q no tenga rerlaciones con otros modelos
+//el pq esta bien q las relaciones esten definidas en otros modelos y no en este
