@@ -66,7 +66,10 @@ export const createOrder = async (req, res) => {
                 return res.status(404).json({ error: `el producto con id ${products.id} no existe`});
             }
         }
-        const newOrder = await Order.create({ user_id, fecha: new Date() });
+        const newOrder = await Order.create({
+            user_id,
+            fecha: new Date() 
+        });
         const productOrder = 
         //agrego los productos a la tabla intermedia 
         for(const productId of products){
