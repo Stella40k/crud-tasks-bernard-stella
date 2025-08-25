@@ -27,7 +27,7 @@ export const User = sequelize.define('User', {
 
 //definicion de relaciones
 
-User.hasMany(Order, {foreignKey: 'userId'});
+User.hasMany(Order, {foreignKey: 'user_id'});
 //un pedido pertnece a un usuario
-Order.belongsTo(User, {foreignKey: 'userId'});  
+Order.belongsTo(User, {foreignKey: 'user_id'});  
 //un usuario tiene muchas pedidos

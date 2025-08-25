@@ -5,11 +5,13 @@ import { connect } from "./src/config/database.js";
 //rutas
 import { TaskRouter } from "./src/routes/task.routes.js";
 import { UserRouter } from "./src/routes/usuario.routes.js";
+import { ProductRouter } from "./src/routes/product.routes.js";
+import { workerRoutes } from "./src/routes/worker.routes.js";
 //todo los modelos
 import { Product } from "./src/model/products.model.js";
 import { Order } from "./src/model/orders.model.js";
 import { Worker } from "./src/model/workers.model.js";
-import {PedidoProducto} from "./src/model/orders_products.model.js";
+import {productOrder} from "./src/model/orders_products.model.js";
 //import cors from 'cors'; //cors es para permitir el acceso a la api desde otros lados
 
 
@@ -20,6 +22,8 @@ const PORT = process.env.PORT;
 app.use(express.json());
 app.use("/api/task/", TaskRouter);
 app.use("/api/user/", UserRouter);
+app.use("/api/product/", ProductRouter);
+app.use("/api/worker/", workerRoutes);
 //app.use(cors()); //aplicamos cors a la ruta /api
 
 
