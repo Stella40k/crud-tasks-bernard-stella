@@ -79,7 +79,7 @@ export const getTaskById = async (req, res) => {
         //____________________________________________________________________________________________
         //validacion para titulos repetidos
         const existTitle = await Task.findOne({ where: { title: title.trim() } });
-        if (existTitle ) {
+        if (!existTitle) {
             return res.status(400).json({ error: "ya existe una tarea con ese titulo" });
         }
         //____________________________________________________________________________________________
