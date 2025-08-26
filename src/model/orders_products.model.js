@@ -1,8 +1,9 @@
 import { DataTypes } from "sequelize";
+import { sequelize } from "../config/database.js";
 import { Order } from "./orders.model.js";
 import { Product } from "./products.model.js";
 
-export const productOrder = sequelize.define('PedidoProducto', {
+export const productOrder = sequelize.define('productOrder', {
  cantidad:{
     type: DataTypes.INTEGER,
     allowNull: false

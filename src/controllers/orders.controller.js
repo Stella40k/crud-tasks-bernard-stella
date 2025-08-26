@@ -70,7 +70,6 @@ export const createOrder = async (req, res) => {
             user_id,
             fecha: new Date() 
         });
-        const productOrder = 
         //agrego los productos a la tabla intermedia 
         for(const productId of products){
             const product = await Product.findByPk(productId);
@@ -80,8 +79,80 @@ export const createOrder = async (req, res) => {
                 cantidad: 1, //por defecto la cantidad es 1
                 precio_unitario: product.precio
             });
-        }     
+        }  
+        const createdOrder = await Order.findByPk(newOrder.id, {
+            include:[
+                { model: User, 
+                  attributes: ['nombre', 'email']
+                },
+                { model: productOrder, 
+                  include: { model: Product, attributes: ['name', 'precio','stock', 'categoria'] },
+                }
+            ]
+        });  
+        return res.status(201).json({ message: "pedido creado", createdOrder }); 
     } catch (error) {
-        
+        return res.status(500).json({ error: "error al crear el pedido" });
     }
 }    
+export const updateOrder = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { estado } = req.body;
+        //valido que el estado sea uno de los permitidos
+        const orderValid = ["pendiente", "enviado", "entregado"];
+        if (!orderValid.includes(estado)) { 
+            return res.status(400).json({ error: "estado no valido" });
+        }
+        const orderNew = await Order.findByPk(id);
+        if (!orderNew){
+            return res.status(404).json({ error: "pedido no encontrado" });
+        }
+        if (updated === 0) {
+            return res.status(404).json({ error: "pedido no encontrado" });
+        }
+        res.status(200).json({ message: "estado del pedido actualizado" });
+    } catch (error) {
+        return res.status(500).json({ error: "error al actualizar el estado del pedido" });
+    }
+}
+export const deleteOrder = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const order = await Order.findByPk(id);
+        if(!order){
+            return res.status(404).json({ error: "pedido no encontrado"});
+        }
+        //primero elimino o deberia eliminar los productos asociados a ese pedido en la tabla intermedia
+        //preguntar mas de esto
+        await productOrder.destroy({ where: { order_id: id } });
+        //elimino el pedido
+        await order.destroy();
+        res.status(200).json({ message: "pedido eliminado"});
+    } catch (error) {
+        return res.status(500).json({ error: "no se pudo eliminar el pedido"});
+    }
+}
+
+// export const getOrderByUser = async (req, res) => {
+//     try {
+//         const { userId } = req.params;
+//         const user = await User.findByPk(userId);
+//         if (!user){
+//             return res.status(404).json({ error: "usuario no encontrado" });
+//         }
+//         const ordersUss = await Order.findAll({
+//             where: { user_id: userId },
+//             include: [
+//                 {   
+//                     model: productOrder,
+//                     include: { model: Product, attributes: ['name', 'precio', 'stock', 'categoria'] },
+//                 }
+                    
+//             ]
+//         });
+//         res.status(200).json(ordersUss);
+//     } catch (error) {
+//         return res.status(500).json({ error: "error del servidor" });
+//     }       
+// }    

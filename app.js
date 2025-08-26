@@ -7,6 +7,7 @@ import { TaskRouter } from "./src/routes/task.routes.js";
 import { UserRouter } from "./src/routes/usuario.routes.js";
 import { ProductRouter } from "./src/routes/product.routes.js";
 import { workerRoutes } from "./src/routes/worker.routes.js";
+import { OrderRouter } from "./src/routes/order.routes.js";
 //todo los modelos
 import { Product } from "./src/model/products.model.js";
 import { Order } from "./src/model/orders.model.js";
@@ -24,6 +25,7 @@ app.use("/api/task/", TaskRouter);
 app.use("/api/user/", UserRouter);
 app.use("/api/product/", ProductRouter);
 app.use("/api/worker/", workerRoutes);
+app.use("/api/order/", OrderRouter);
 //app.use(cors()); //aplicamos cors a la ruta /api
 
 
