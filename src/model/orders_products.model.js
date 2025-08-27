@@ -8,10 +8,6 @@ export const productOrder = sequelize.define('productOrder', {
     type: DataTypes.INTEGER,
     allowNull: false
  },
- precio_unitario:{
-   type: DataTypes.FLOAT,
-   allowNull: false
-},
   order_id: {
     type: DataTypes.INTEGER,
     allowNull: false,

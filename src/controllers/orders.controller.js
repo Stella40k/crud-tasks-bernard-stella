@@ -2,14 +2,13 @@ import { Order } from "../model/orders.model.js";
 import { User } from "../model/user.model.js";
 import { Product } from "../model/products.model.js";
 import { productOrder } from "../model/orders_products.model.js";
-import "dotenv/config";
 
 export const allOrders = async (req, res) => {
     try {
         const orders = await Order.findAll({
             include:[
                 { model: User, 
-                  attributes: ['nombre', 'email']
+                  attributes: ['name', 'email']
                 },
                 {
                     model: productOrder, 
@@ -29,7 +28,7 @@ export const getOrderById = async (req, res) => {
         const order = await Order.findByPk(id, {
             include: [
                 { model: User, 
-                  attributes: ['nombre', 'email']
+                  attributes: ['name', 'email']
                 }
             ]
         });
@@ -43,7 +42,7 @@ export const getOrderById = async (req, res) => {
 }
 export const createOrder = async (req, res) => {
     try {
-        const { user_id, products } = req.body;
+        const { user_id, products, cantidad } = req.body;
 
         // productos = [1,2,3]
         // user = 1
@@ -58,32 +57,32 @@ export const createOrder = async (req, res) => {
         if(!existingUser){
             return res.status(404).json({ error: "usuario no encontrado"});
         }
-        //recorre y valida toooda la cadena de arrays q se le metas
-        //produtId of products significa q por cada id de producto dentro del array products recorrera
-        for(const productId of products){
-            const existProduct = await Product.findByPk(productId)
-            if(!existProduct){
-                return res.status(404).json({ error: `el producto con id ${products.id} no existe`});
-            }
-        }
+        //este es el arreglo q hice vacio y voy llenando con los productos q voy encontrando
+        //pero al arreglo le agregamos un nueo objeto q es el producto encontrado y asi recorriendo todo el 
+        //array de los productos q me mandaron por el body
+       // productsDetails.push(existProduct);
+        totalPrice += existProduct.precio; //voy sumando el precio de cada producto q voy encontrando
+        //totalP es 0 por defecto, aca se le va sumando los precios de los products q encuentra
+        //pedir igual mas explicacion de esto
         const newOrder = await Order.create({
             user_id,
-            fecha: new Date() 
+            fecha: new Date(),
+            estado: "pendiente" //q sea pendiente por defecto
         });
         //agrego los productos a la tabla intermedia 
-        for(const productId of products){
-            const product = await Product.findByPk(productId);
+        for(const pedido of products){
+            const cambiar = await Product.findByPk(pedido.product_id);
             await productOrder.create({
                 order_id: newOrder.id,
                 product_id: product.id,
-                cantidad: 1, //por defecto la cantidad es 1
-                precio_unitario: product.precio
+                cantidad: pedido.cantidad
+                // precio_unitario: product.precio
             });
         }  
         const createdOrder = await Order.findByPk(newOrder.id, {
             include:[
                 { model: User, 
-                  attributes: ['nombre', 'email']
+                  attributes: ['name', 'email']
                 },
                 { model: productOrder, 
                   include: { model: Product, attributes: ['name', 'precio','stock', 'categoria'] },
@@ -108,10 +107,10 @@ export const updateOrder = async (req, res) => {
         if (!orderNew){
             return res.status(404).json({ error: "pedido no encontrado" });
         }
-        if (updated === 0) {
-            return res.status(404).json({ error: "pedido no encontrado" });
-        }
-        res.status(200).json({ message: "estado del pedido actualizado" });
+        orderNew.estado = estado;//actualizo el estado del pedido
+        await orderNew.save();//guardo los cambios
+
+        return res.status(200).json({ message: "estado del pedido actualizado", orderNew });
     } catch (error) {
         return res.status(500).json({ error: "error al actualizar el estado del pedido" });
     }
