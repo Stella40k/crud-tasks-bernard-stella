@@ -61,9 +61,7 @@ export const createOrder = async (req, res) => {
         //pero al arreglo le agregamos un nueo objeto q es el producto encontrado y asi recorriendo todo el 
         //array de los productos q me mandaron por el body
        // productsDetails.push(existProduct);
-        totalPrice += existProduct.precio; //voy sumando el precio de cada producto q voy encontrando
-        //totalP es 0 por defecto, aca se le va sumando los precios de los products q encuentra
-        //pedir igual mas explicacion de esto
+        
         const newOrder = await Order.create({
             user_id,
             fecha: new Date(),
@@ -79,6 +77,9 @@ export const createOrder = async (req, res) => {
                 // precio_unitario: product.precio
             });
         }  
+        totalPrice += existProduct.precio; //voy sumando el precio de cada producto q voy encontrando
+        //totalP es 0 por defecto, aca se le va sumando los precios de los products q encuentra
+        //pedir igual mas explicacion de esto
         const createdOrder = await Order.findByPk(newOrder.id, {
             include:[
                 { model: User, 
